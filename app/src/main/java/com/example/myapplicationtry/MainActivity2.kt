@@ -3,6 +3,7 @@ package com.example.myapplicationtry
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -11,13 +12,22 @@ import androidx.core.view.WindowInsetsCompat
 
 class MainActivity2 : AppCompatActivity() {
 
-    private lateinit var eDate:TextView
-    private lateinit var eMorning:TextView
-    private lateinit var eAfternoon:TextView
-    private lateinit var eNotes:TextView
+    private lateinit var eDate:EditText
+    private lateinit var eMorning:EditText
+    private lateinit var eAfternoon:EditText
+    private lateinit var eNotes:EditText
     private lateinit var Savebutton:Button
     private lateinit var Cleanbutton:Button
     private lateinit var Nextbutton:Button
+    private lateinit var tvMessage: TextView
+
+    private val dateArray= mutableListOf<Float>()
+    private val MorningArrayTime= mutableListOf<Float>()
+    private val AfternoonArrayTime= mutableListOf<Float>()
+    private val notesArray= mutableListOf<String>()
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,11 +41,9 @@ class MainActivity2 : AppCompatActivity() {
         Savebutton= findViewById(R.id.Savebutton)
         Cleanbutton= findViewById(R.id.Cleanbutton)
         Nextbutton= findViewById(R.id.Nextbutton)
+        tvMessage= findViewById(R.id.tvMessage)
 
-        val dateArray= arrayOfNulls<String>(7)
-        val MorningArrayTime= arrayOfNulls<String>(7)
-        val AfternoonArrayTime= arrayOfNulls<String>(7)
-        val notesArray= arrayOfNulls<String>(7)
+
 
         Cleanbutton.setOnClickListener {
             eDate.setText("")
@@ -45,19 +53,36 @@ class MainActivity2 : AppCompatActivity() {
         }
 
         Savebutton.setOnClickListener {
-            dateArray[0]= eDate.text.toString()
-            MorningArrayTime[0]= eMorning.text.toString()
-            AfternoonArrayTime[0]= eAfternoon.text.toString()
-            notesArray[0]= eNotes.text.toString()
+            val screenTimeDate = eDate.text.toString()
+            val screenTimeMorning  = eMorning.text.toString()
+            val screenTimeAfternoon= eAfternoon.text.toString()
+            val screenTimeNote= eNotes.text.toString()
+
+            if (screenTimeDate.isNotEmpty() && screenTimeMorning.isNotEmpty() && screenTimeAfternoon.isNotEmpty()){
+             try{
+                 dateArray.add(screenTimeDate.toFloat())
+                 MorningArrayTime.add(screenTimeMorning.toFloat())
+                 AfternoonArrayTime.add(screenTimeAfternoon.toFloat())
+                 notesArray.add(screenTimeNote)
+                 eDate.text.clear()
+                 eMorning.text.clear()
+                 eAfternoon.text.clear()
+                 eNotes.text.clear()
+             }catch (e: NumberFormatException){
+                 tvMessage.text= "Please entre a valid number"
+             }
+
+            } else{
+                tvMessage.text= "Input cannot be empty"
+            }
         }
 
         Nextbutton.setOnClickListener {
-            val intent=Intent(this,MainActivity3::class.java).apply {
-                putExtra("dateArray",dateArray)
-                putExtra("MorningArrayTime",MorningArrayTime)
-                putExtra("AfternoonArrayTime",AfternoonArrayTime)
-                putExtra("notesArray",notesArray)
-            }
+            val intent=Intent(this,MainActivity3::class.java)
+               intent.putExtra("dateArray", dateArray.toFloatArray())
+            intent.putExtra("MorningArrayTime", MorningArrayTime.toFloatArray())
+            intent.putExtra("AfternoonArrayTime", AfternoonArrayTime.toFloatArray())
+            intent.putExtra("notesArray", notesArray.toTypedArray())
             startActivity(intent)
         }
 

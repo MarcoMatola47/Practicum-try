@@ -21,7 +21,7 @@ class MainActivity2 : AppCompatActivity() {
     private lateinit var Nextbutton:Button
     private lateinit var tvMessage: TextView
 
-    private val dateArray= mutableListOf<Float>()
+    private val dateArray= mutableListOf<String>()
     private val MorningArrayTime= mutableListOf<Float>()
     private val AfternoonArrayTime= mutableListOf<Float>()
     private val notesArray= mutableListOf<String>()
@@ -60,7 +60,7 @@ class MainActivity2 : AppCompatActivity() {
 
             if (screenTimeDate.isNotEmpty() && screenTimeMorning.isNotEmpty() && screenTimeAfternoon.isNotEmpty()){
              try{
-                 dateArray.add(screenTimeDate.toFloat())
+                 dateArray.add(screenTimeDate)
                  MorningArrayTime.add(screenTimeMorning.toFloat())
                  AfternoonArrayTime.add(screenTimeAfternoon.toFloat())
                  notesArray.add(screenTimeNote)
@@ -79,7 +79,7 @@ class MainActivity2 : AppCompatActivity() {
 
         Nextbutton.setOnClickListener {
             val intent=Intent(this,MainActivity3::class.java)
-               intent.putExtra("dateArray", dateArray.toFloatArray())
+               intent.putExtra("dateArray", dateArray.toTypedArray())
             intent.putExtra("MorningArrayTime", MorningArrayTime.toFloatArray())
             intent.putExtra("AfternoonArrayTime", AfternoonArrayTime.toFloatArray())
             intent.putExtra("notesArray", notesArray.toTypedArray())

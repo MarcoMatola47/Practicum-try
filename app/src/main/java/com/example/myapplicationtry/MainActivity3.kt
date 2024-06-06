@@ -32,14 +32,14 @@ class MainActivity3 : AppCompatActivity() {
         textView5= findViewById(R.id.textView5)
         button3= findViewById(R.id.button3)
 
-        val dateArray= intent.getFloatArrayExtra("dateArray")?.toList()?: emptyList()
+        val dateArray= intent.getStringArrayExtra("dateArray")?.toList()?: emptyList()
         val MorningArrayTime = intent.getFloatArrayExtra("MorningArrayTime")?.toList()?: emptyList()
         val AfternoonArrayTime= intent.getFloatArrayExtra("AfternoonArrayTime")?.toList()?: emptyList()
         val noteArray= intent.getStringArrayExtra("notesArray")?.toList()?: emptyList()
 
         val dated = StringBuilder()
         for ((index, date)in dateArray.withIndex()){
-            dated.append("Day ${index + 1}: $date \n")
+            dated.append("Day $index: $date \n")
         }
         val hoursAM = StringBuilder()
         for ((index, time)in MorningArrayTime.withIndex()){
@@ -56,14 +56,12 @@ class MainActivity3 : AppCompatActivity() {
 
         textView2.text= dated.toString()
         textView3.text= hoursAM.toString()
-        textView3.text= hoursPM.toString()
-        textView4.text= noted.toString()
+        textView4.text= hoursPM.toString()
+        textView5.text= noted.toString()
 
         button3.setOnClickListener {
             finish()
         }
-
-
 
 
     }
